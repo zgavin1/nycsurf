@@ -62,6 +62,9 @@ class App extends Component {
         <aside className="nycsurf-aside">
           <button type="button" id="beachToggle" onClick={this.toggleBeach}>Toggle Beach</button>
         </aside>
+        <aside className="nycsurf-aside nycsurf-aside--alt">
+          <a href="https://magicseaweed.com"><img alt="Link to Magic Seaweed" src="https://im-1-uk.msw.ms/msw_powered_by.png" /></a>
+        </aside>
         <div className="nycsurf-main">
 
           <section>

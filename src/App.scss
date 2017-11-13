@@ -25,4 +25,10 @@
   top: 0;
   left: 0;
   width: 10em;
+
+  &--alt {
+    width: auto;
+    left: auto;
+    right: 0;
+  }
 }
