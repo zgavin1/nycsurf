@@ -31,7 +31,7 @@ class App extends Component {
   renderLiveStream() {
     if (this.state.currentBeach === beaches.rockaway) {
       return (<div>
-        <iframe title="rockaway-beach-feed" width="640" height="360" src="http://e.cdn-surfline.com/syndication/embed/v1/player.html?id=137586" frameborder="0" scrolling="no" allowfullscreen></iframe>
+        <iframe title="rockaway-beach-feed" width="640" height="360" src="http://e.cdn-surfline.com/syndication/embed/v1/player.html?id=137586" frameborder="0" scrolling="no" allowFullScreen></iframe>
         <div>
           <a href="https://www.surfline.com/surf-report/77th-st-rockaways-long-island_137586/"  title="77th St. Rockaways Surf Report and HD Surf Cam">77th St. Rockaways</a> Live HD Surf Cam. Check out more Surf Cams at <a href="http://www.surfline.com" title="Surfline.com - Global Surf Reports, Surf Forecasts, Live Surf Cams and Coastal Weather">Surfline.com</a>
         </div>
@@ -39,7 +39,7 @@ class App extends Component {
       )
     } else {
       return (<div>
-        <iframe title="long-beach-feed" width="640" height="360" src="http://e.cdn-surfline.com/syndication/embed/v1/player.html?id=4269" frameborder="0" scrolling="no" allowfullscreen></iframe>
+        <iframe title="long-beach-feed" width="640" height="360" src="http://e.cdn-surfline.com/syndication/embed/v1/player.html?id=4269" frameborder="0" scrolling="no" allowFullScreen></iframe>
         <div>
           <a href="https://www.surfline.com/surf-report/lincoln-blvd-long-island_4269/" title="Lincoln Blvd. Surf Report and HD Surf Cam">Lincoln Blvd.</a> Live HD Surf Cam. Check out more Surf Cams at <a href="http://www.surfline.com" title="Surfline.com - Global Surf Reports, Surf Forecasts, Live Surf Cams and Coastal Weather">Surfline.com</a>
         </div>
