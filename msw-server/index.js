@@ -18,8 +18,15 @@ const router = express.Router();
 const https = require('https');
 
 // respond with "hello world" when a GET request is made to the homepage
-router.get('/msw', function (req, res) {
-	const url = `https://magicseaweed.com/api/${API_KEY}/forecast/?spot_id=284`;
+router.get('/msw/384', function (req, res) {
+	const url = `https://magicseaweed.com/api/${API_KEY}/forecast/?spot_id=384`;
+	request(url, (err, response, body) => {
+		res.send({express: body});
+	});
+})
+
+router.get('/msw/383', function (req, res) {
+	const url = `https://magicseaweed.com/api/${API_KEY}/forecast/?spot_id=383`;
 	request(url, (err, response, body) => {
 		res.send({express: body});
 	});

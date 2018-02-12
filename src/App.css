@@ -1,18 +1,13 @@
 .nycsurf {
-  text-align: center; }
-
-.nycsurf-header {
-  height: 150px;
-  padding: 20px; }
+  text-align: left;
+  padding: 2em;
+  height: 100%; }
 
 .nycsurf-title {
   font-size: 4em; }
 
-.nycsurf-main {
-  margin: 0 auto;
-  width: 40em; }
-  .nycsurf-main h2 {
-    font-size: 2em; }
+.nycsurf-main h2 {
+  font-size: 2em; }
 
 .nycsurf-aside {
   position: fixed;

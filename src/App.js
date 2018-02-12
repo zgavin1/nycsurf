@@ -8,25 +8,33 @@ class App extends Component {
 
     this.state = {
       currentBeach: beaches.rockaway,
-      beach: {},
+      forecastToday: {},
+      forecastTomorrow: {},
       error: {}
     };
 
     this.toggleBeach = this.toggleBeach.bind(this);
     this.renderLiveStream = this.renderLiveStream.bind(this);
     this.callAPI = this.callAPI.bind(this);
+    this.renderInfo = this.renderInfo.bind(this);
   }
 
   componentDidMount() {
-    this.callAPI()
+    this.callAPI(this.state.currentBeach.beachId)
       .then(res => {
-        this.setState({ response: res.express })
+        const forecast = res.express;
+        console.log(JSON.parse(forecast)[0]);
+        this.setState({
+          // picking 
+          forecastToday: JSON.parse(forecast)[2],
+          forecastTomorrow: JSON.parse(forecast)[10]
+        });
       })
       .catch(err => console.log(err));
   }
 
-  callAPI = async () => {
-    const response = await fetch('/msw');
+  callAPI = async spotId => {
+    const response = await fetch(`/msw/${spotId}`);
     const body = await response.json();
 
     if (response.status !== 200) throw Error(body.message);
@@ -35,7 +43,10 @@ class App extends Component {
   }
 
   toggleBeach() {
-    console.log('toggle beach');
+    this.setState(
+      { currentBeach: this.state.currentBeach.beachId === beaches.rockaway.beachId ? beaches.long : beaches.rockaway },
+      () => this.callAPI(this.state.currentBeach.beachId)
+    );
   }
 
   renderLiveStream() {
@@ -58,12 +69,35 @@ class App extends Component {
     // }
   }
 
+  renderInfo() {
+    const { forecastToday, forecastTomorrow } = this.state;
+
+    return (
+      <div className="nycsurf-main">
+        <section>
+          <h2>6am Today</h2>
+          <ul>
+            <ul>time: {forecastToday.localTimestamp}</ul>
+            <ul>swell: {forecastToday.swell.absMaxBreakingHeight} ft</ul>
+
+          </ul>
+        </section>
+        <section>
+        <h2>6am Tomorrow</h2>
+          <ul>
+            <ul>time: {forecastTomorrow.localTimestamp}</ul>
+            <ul>swell: {forecastTomorrow.swell.absMaxBreakingHeight} ft</ul>
+          </ul>
+        </section>
+      </div>
+    );
+  }
+
   render() {
-    const { currentBeach } = this.state;
+    const { currentBeach, forecastToday } = this.state;
 
-    const conditionsText = 'Rip the pit barny solid hit board tide stale wonk drainer. Lil ripper carve fins free offshore ridin the foam ball nuggets of heaven, one wave set. Slab rookie bro, waves fat, full rote above the lip. Kerrzy, Ano Nuevo rookie lined up air reverse wax the stick capped out.'
-
-    console.log(this.state.response ? JSON.parse(this.state.response)[0] : 'no response', 'from api');
+    console.log(this.state.forecastToday.localTimestamp);
+    console.log(this.state.forecastTomorrow.localTimestamp);
     return (
       <div className="nycsurf">
         <header className="nycsurf-header">
@@ -75,22 +109,8 @@ class App extends Component {
         <aside className="nycsurf-aside nycsurf-aside--alt">
           <a href="https://magicseaweed.com"><img alt="Link to Magic Seaweed" src="https://im-1-uk.msw.ms/msw_powered_by.png" /></a>
         </aside>
-        <div className="nycsurf-main">
 
-          {/* {data} */}
-
-          <section>
-            <h2>Today</h2>
-            <p>{conditionsText}</p>
-            {this.renderLiveStream()}
-
-          </section>
-          <section>
-            <h2>Tomorrow</h2>
-            <p>{conditionsText}</p>
-
-          </section>
-        </div>
+        {Boolean(forecastToday.timestamp) ? this.renderInfo() : ''}
       </div>
     );
   }
