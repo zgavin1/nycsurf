@@ -1,0 +1,30 @@
+{
+  "name": "nyc-surf",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "https://zgavin1.github.io/nycsurf",
+  "dependencies": {
+    "axios": "^0.17.1",
+    "gh-pages": "^1.0.0",
+    "node-sass-chokidar": "0.0.3",
+    "react": "^16.1.0",
+    "react-dom": "^16.1.0",
+    "react-scripts": "1.0.17",
+    "request": "^2.83.0"
+  },
+  "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "build-css": "node-sass-chokidar src/ -o src/",
+    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "concurrently": "^3.5.1",
+    "dotenv": "^5.0.0"
+  },
+  "proxy": "http://localhost:5000/"
+}
