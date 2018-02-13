@@ -9,10 +9,9 @@ app.use(function(req, res, next) {
 });
 
 if (process.env.NODE_ENV !== 'production') {
-	require('dotenv').load({path: '../.env'});
+	const r = require('dotenv').load();
 }
 const API_KEY = process.env.MSW_API_KEY;
-
 const router = express.Router();
 
 router.get('/msw/384', function (req, res) {

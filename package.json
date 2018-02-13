@@ -17,9 +17,12 @@
     "express": "^4.16.2",
     "request": "^2.83.0"
   },
+  "devDependencies": {
+    "dotenv": "^5.0.0"
+  },
   "repository": {
     "type": "git",
-    "url": "https://github.com/zgavin1/nyc-surf.git"
+    "url": "git+https://github.com/zgavin1/nyc-surf.git"
   },
   "keywords": [
     "node",
@@ -28,5 +31,10 @@
     "react"
   ],
   "license": "MIT",
-  "devDependencies": {}
+  "bugs": {
+    "url": "https://github.com/zgavin1/nyc-surf/issues"
+  },
+  "homepage": "https://github.com/zgavin1/nyc-surf#readme",
+  "main": "index.js",
+  "author": ""
 }

@@ -23,7 +23,6 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
-    "concurrently": "^3.5.1",
     "dotenv": "^5.0.0"
   },
   "proxy": "http://localhost:5000/"
