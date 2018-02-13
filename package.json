@@ -1,32 +1,32 @@
 {
   "name": "nyc-surf",
-  "version": "0.1.0",
-  "private": true,
-  "homepage": "https://myusername.github.io/nycsurf",
-  "dependencies": {
-    "axios": "^0.17.1",
-    "gh-pages": "^1.0.0",
-    "node-sass-chokidar": "0.0.3",
-    "react": "^16.1.0",
-    "react-dom": "^16.1.0",
-    "react-scripts": "1.0.17",
-    "request": "^2.83.0"
+  "version": "1.0.0",
+  "description": "Forecasting app for NYC beach conditions",
+  "engines": {
+    "node": "8.9.x"
   },
   "scripts": {
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "server": "cd msw-server && nodemon index.js",
-    "dev": "concurrently --kill-others-on-fail \"yarn server\" \"yarn start\""
+    "start": "node server",
+    "heroku-postbuild": "cd react/ && npm install && npm install --only=dev --no-shrinkwrap && npm run build-css && npm run build"
   },
-  "devDependencies": {
-    "concurrently": "^3.5.1",
-    "dotenv": "^5.0.0"
+  "cacheDirectories": [
+    "node_modules",
+    "react/node_modules"
+  ],
+  "dependencies": {
+    "express": "^4.16.2",
+    "request": "^2.83.0"
   },
-  "proxy": "http://localhost:5000/"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zgavin1/nyc-surf.git"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "create-react-app",
+    "react"
+  ],
+  "license": "MIT",
+  "devDependencies": {}
 }
