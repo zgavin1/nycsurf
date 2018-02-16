@@ -34,7 +34,5 @@
   "bugs": {
     "url": "https://github.com/zgavin1/nyc-surf/issues"
   },
-  "homepage": "https://github.com/zgavin1/nyc-surf#readme",
-  "main": "index.js",
-  "author": ""
+  "author": "Zach Gavin"
 }

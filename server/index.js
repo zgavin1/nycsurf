@@ -9,7 +9,7 @@ app.use(function(req, res, next) {
 	next();
 });
 
-app.use(express.static(path.resolve(__dirname, '../react/build')));
+app.use(express.static(path.resolve('../react/build')));
 
 if (process.env.NODE_ENV !== 'production') {
 	const r = require('dotenv').load();
