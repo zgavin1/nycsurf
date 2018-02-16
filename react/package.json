@@ -2,7 +2,6 @@
   "name": "nyc-surf",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://zgavin1.github.io/nycsurf",
   "dependencies": {
     "axios": "^0.17.1",
     "gh-pages": "^1.0.0",
