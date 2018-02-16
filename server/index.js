@@ -31,8 +31,12 @@ router.get('/msw/383', function (req, res) {
 	});
 })
 
+
 app.use(router);
 
+app.get('*', function(request, response) {
+	response.sendFile(path.resolve(__dirname, '../react-ui/build', 'index.html'));
+});
 
 const port = process.env.PORT || 5000;
 
