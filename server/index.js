@@ -9,7 +9,7 @@ app.use(function(req, res, next) {
 	next();
 });
 
-app.use(express.static(path.resolve('../react/build')));
+app.use(express.static(path.resolve(__dirname, '../react/build')));
 
 if (process.env.NODE_ENV !== 'production') {
 	const r = require('dotenv').load();
@@ -35,7 +35,7 @@ router.get('/msw/383', function (req, res) {
 app.use(router);
 
 app.get('*', function(request, response) {
-	response.sendFile(path.resolve('../react/build', 'index.html'));
+	response.sendFile(path.resolve(__dirname, '../react/build', 'index.html'));
 });
 
 const port = process.env.PORT || 5000;
