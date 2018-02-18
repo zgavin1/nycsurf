@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import { beaches } from './utils.js';
+import logo from './msw_powered_by.png';
 
 class App extends Component {
   constructor() {
@@ -17,6 +18,8 @@ class App extends Component {
     this.renderLiveStream = this.renderLiveStream.bind(this);
     this.callAPI = this.callAPI.bind(this);
     this.renderInfo = this.renderInfo.bind(this);
+    this.getForecast = this.getForecast.bind(this);
+    this.setForecast = this.setForecast.bind(this);
   }
 
   componentDidMount() {
@@ -33,6 +36,7 @@ class App extends Component {
   }
 
   callAPI = async spotId => {
+    console.log(spotId);
     const response = await fetch(`/msw/${spotId}`);
     const body = await response.json();
 
@@ -41,10 +45,24 @@ class App extends Component {
     return body;
   }
 
+  getForecast() {
+    this.callAPI(this.state.currentBeach.beachId)
+      .then(this.setForecast)
+      .catch(err => console.log(err))
+  }
+
+  setForecast(res) {
+    const forecast = res.express;
+    this.setState({
+      forecastToday: JSON.parse(forecast)[2],
+      forecastTomorrow: JSON.parse(forecast)[10]
+    });
+  }
+
   toggleBeach() {
     this.setState(
       { currentBeach: this.state.currentBeach.beachId === beaches.rockaway.beachId ? beaches.long : beaches.rockaway },
-      () => this.callAPI(this.state.currentBeach.beachId)
+      this.getForecast
     );
   }
 
@@ -70,7 +88,7 @@ class App extends Component {
 
   renderInfo() {
     const { forecastToday, forecastTomorrow } = this.state;
-
+    console.log(this.state);
     return (
       <div className="nycsurf-main">
         <section>
@@ -106,7 +124,7 @@ class App extends Component {
           <button type="button" id="beachToggle" onClick={this.toggleBeach}>Toggle Beach</button>
         </aside>
         <aside className="nycsurf-aside nycsurf-aside--alt">
-          <a href="https://magicseaweed.com"><img alt="Link to Magic Seaweed" src="https://im-1-uk.msw.ms/msw_powered_by.png" /></a>
+          <a href="https://magicseaweed.com"><img alt="Link to Magic Seaweed" src={logo} /></a>
         </aside>
 
         {Boolean(forecastToday.timestamp) ? this.renderInfo() : ''}
