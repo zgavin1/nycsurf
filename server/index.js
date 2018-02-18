@@ -34,7 +34,7 @@ router.get('/msw/383', function (req, res) {
 
 app.use(router);
 
-app.get('*', function(request, response) {
+app.get('/', function(request, response) {
 	response.sendFile(path.resolve(__dirname, '../react/build', 'index.html'));
 });
 

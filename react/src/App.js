@@ -36,7 +36,6 @@ class App extends Component {
   }
 
   callAPI = async spotId => {
-    console.log(spotId);
     const response = await fetch(`/msw/${spotId}`);
     const body = await response.json();
 
