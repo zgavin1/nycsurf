@@ -38,6 +38,10 @@ app.get('/', function(request, response) {
 	response.sendFile(path.resolve(__dirname, '../react/build', 'index.html'));
 });
 
+app.get('/manifest.json', function(request, response) {
+	response.sendFile(path.resolve(__dirname, '../react/build', 'manifest.json'));
+});
+
 const port = process.env.PORT || 5000;
 
 app.listen(port, () => console.log(`Example app  on port ${port}!`))
