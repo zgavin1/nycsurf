@@ -38,10 +38,6 @@ app.get('/', function(request, response) {
 	response.sendFile(path.resolve(__dirname, '../react/build', 'index.html'));
 });
 
-app.get('/manifest.json', function(request, response) {
-	response.sendFile(path.resolve(__dirname, '../react/build', 'manifest.json'));
-});
-
 const sslRedirect = () => {
   function requestIsSecure(req) {
     return req.header('x-forwarded-proto') === 'https' || req.secure === true;
