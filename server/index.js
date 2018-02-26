@@ -42,6 +42,24 @@ app.get('/manifest.json', function(request, response) {
 	response.sendFile(path.resolve(__dirname, '../react/build', 'manifest.json'));
 });
 
+const sslRedirect = () => {
+  function requestIsSecure(req) {
+    return req.header('x-forwarded-proto') === 'https' || req.secure === true;
+  }
+
+  return (req, res, next) => {
+    if (requestIsSecure(req)) {
+      next();
+    } else {
+      res.redirect(301, `https://${req.header('host')}${req.url}`);
+    }
+  };
+};
+
+if (process.env.NODE_ENV === 'production') {
+	app.use(sslRedirect);
+}
+
 const port = process.env.PORT || 5000;
 
 app.listen(port, () => console.log(`Example app  on port ${port}!`))
