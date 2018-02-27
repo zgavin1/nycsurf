@@ -87,7 +87,7 @@ class App extends Component {
 
   renderInfo() {
     const { forecastToday, forecastTomorrow } = this.state;
-    console.log(this.state);
+    
     return (
       <div className="nycsurf-main">
         <section>
@@ -112,8 +112,6 @@ class App extends Component {
   render() {
     const { currentBeach, forecastToday } = this.state;
 
-    console.log(this.state.forecastToday.localTimestamp);
-    console.log(this.state.forecastTomorrow.localTimestamp);
     return (
       <div className="nycsurf">
         <header className="nycsurf-header">
