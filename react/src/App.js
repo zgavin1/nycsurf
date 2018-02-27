@@ -17,23 +17,22 @@ class App extends Component {
     this.toggleBeach = this.toggleBeach.bind(this);
     this.renderLiveStream = this.renderLiveStream.bind(this);
     this.callAPI = this.callAPI.bind(this);
-    this.renderInfo = this.renderInfo.bind(this);
     this.getForecast = this.getForecast.bind(this);
     this.setForecast = this.setForecast.bind(this);
   }
 
-  componentDidMount() {
-    this.callAPI(this.state.currentBeach.beachId)
-      .then(res => {
-        const forecast = res.express;
-        this.setState({
-          // picking 
-          forecastToday: JSON.parse(forecast)[2],
-          forecastTomorrow: JSON.parse(forecast)[10]
-        });
-      })
-      .catch(err => console.log(err));
-  }
+  // componentDidMount() {
+  //   this.callAPI(this.state.currentBeach.beachId)
+  //     .then(res => {
+  //       const forecast = res.express;
+  //       this.setState({
+  //         // picking 
+  //         forecastToday: JSON.parse(forecast)[2],
+  //         forecastTomorrow: JSON.parse(forecast)[10]
+  //       });
+  //     })
+  //     .catch(err => console.log(err));
+  // }
 
   callAPI = async spotId => {
     const response = await fetch(`/msw/${spotId}`);
@@ -85,7 +84,7 @@ class App extends Component {
     // }
   }
 
-  renderInfo() {
+  get renderInfo() {
     const { forecastToday, forecastTomorrow } = this.state;
     
     return (
@@ -124,7 +123,7 @@ class App extends Component {
           <a href="https://magicseaweed.com"><img alt="Link to Magic Seaweed" src={logo} /></a>
         </aside>
 
-        {Boolean(forecastToday.timestamp) ? this.renderInfo() : ''}
+        {Boolean(forecastToday.timestamp) ? this.renderInfo : <button type="button" id="getData" onClick={this.getForecast}>Get the Forecast</button>}
       </div>
     );
   }
