@@ -1,6 +1,8 @@
 {
   "short_name": "NYC_Surf",
   "name": "NYC Surf",
+  "start_url": ".",
+  "display": "standalone",
   "icons": [
     {
       "src": "./surf192.png",
@@ -13,8 +15,6 @@
       "type": "image/x-icon"
     }
   ],
-  "start_url": "/",
-  "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff"
 }
