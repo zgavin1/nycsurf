@@ -1,7 +1,7 @@
 {
   "short_name": "NYC_Surf",
   "name": "NYC Surf",
-  "start_url": ".",
+  "start_url": "/index.html",
   "display": "standalone",
   "icons": [
     {
