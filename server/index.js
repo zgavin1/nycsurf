@@ -37,6 +37,8 @@ router.get('/msw/383', function (req, res) {
 	});
 })
 
+app.use(router);
+
 const sslRedirect = () => {
 	function requestIsSecure(req) {
 		return req.header('x-forwarded-proto') === 'https' || req.secure === true;
@@ -55,11 +57,9 @@ if (process.env.NODE_ENV === 'production') {
 	app.use(sslRedirect);
 }
 
-app.use(router);
-
-// app.get('/', function(request, response) {
-// 	response.sendFile(path.resolve(__dirname, '../react/build', 'index.html'));
-// });
+app.get('/', function(request, response) {
+	response.sendFile(path.resolve(__dirname, '../react/build', 'index.html'));
+});
 
 
 
