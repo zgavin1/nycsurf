@@ -4,23 +4,6 @@ const request = require('request');
 const path = require('path');
 const compression = require('compression');
 
-const sslRedirect = () => {
-	function requestIsSecure(req) {
-		return req.header('x-forwarded-proto') === 'https' || req.secure === true;
-	}
-
-	return (req, res, next) => {
-		if (requestIsSecure(req)) {
-			next();
-		} else {
-			res.redirect(301, `https://${req.header('host')}${req.url}`);
-		}
-	};
-};
-
-if (process.env.NODE_ENV === 'production') {
-	app.use(sslRedirect);
-}
 
 // app.use(compression());
 
@@ -39,6 +22,7 @@ if (process.env.NODE_ENV !== 'production') {
 const API_KEY = process.env.MSW_API_KEY;
 const router = express.Router();
 
+
 router.get('/msw/384', function (req, res) {
 	const url = `https://magicseaweed.com/api/${API_KEY}/forecast/?spot_id=384`;
 	request(url, (err, response, body) => {
@@ -52,6 +36,24 @@ router.get('/msw/383', function (req, res) {
 		res.send({express: body});
 	});
 })
+
+const sslRedirect = () => {
+	function requestIsSecure(req) {
+		return req.header('x-forwarded-proto') === 'https' || req.secure === true;
+	}
+
+	return (req, res, next) => {
+		if (requestIsSecure(req)) {
+			next();
+		} else {
+			res.redirect(301, `https://${req.header('host')}${req.url}`);
+		}
+	};
+};
+
+if (process.env.NODE_ENV === 'production') {
+	app.use(sslRedirect);
+}
 
 app.use(router);
 
