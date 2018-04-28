@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
+import moment from 'moment'
 import './App.css';
-import { beaches } from './utils.js';
+import { beaches, evaluateRating } from './utils.js';
 import logo from './msw_powered_by.png';
 
 class App extends Component {
@@ -11,33 +12,20 @@ class App extends Component {
       currentBeach: beaches.rockaway,
       forecastToday: {},
       forecastTomorrow: {},
-      error: {}
+      error: {},
+      dataIsLoaded: false
     };
 
     this.toggleBeach = this.toggleBeach.bind(this);
-    this.renderLiveStream = this.renderLiveStream.bind(this);
     this.callAPI = this.callAPI.bind(this);
     this.getForecast = this.getForecast.bind(this);
     this.setForecast = this.setForecast.bind(this);
   }
 
-  // componentDidMount() {
-  //   this.callAPI(this.state.currentBeach.beachId)
-  //     .then(res => {
-  //       const forecast = res.express;
-  //       this.setState({
-  //         // picking 
-  //         forecastToday: JSON.parse(forecast)[2],
-  //         forecastTomorrow: JSON.parse(forecast)[10]
-  //       });
-  //     })
-  //     .catch(err => console.log(err));
-  // }
-
   callAPI = async spotId => {
     const response = await fetch(`/msw/${spotId}`);
     const body = await response.json();
-
+    
     if (response.status !== 200) throw Error(body.message);
 
     return body;
@@ -51,65 +39,49 @@ class App extends Component {
 
   setForecast(res) {
     const forecast = res.express;
+    
     this.setState({
-      forecastToday: JSON.parse(forecast)[2],
-      forecastTomorrow: JSON.parse(forecast)[10]
+      dataIsLoaded: true,
+      forecastToday: JSON.parse(forecast)[4],
+      forecastTomorrow: JSON.parse(forecast)[12]
     });
   }
 
   toggleBeach() {
-    this.setState(
-      { currentBeach: this.state.currentBeach.beachId === beaches.rockaway.beachId ? beaches.long : beaches.rockaway },
+    this.setState({
+      currentBeach: 
+        this.state.currentBeach.beachId === beaches.rockaway.beachId
+         ? beaches.long
+         : beaches.rockaway
+      },
       this.getForecast
     );
   }
 
-  renderLiveStream() {
-    // if (this.state.currentBeach === beaches.rockaway) {
-    //   return (<div>
-    //     <iframe title="rockaway-beach-feed" width="640" height="360" src="http://e.cdn-surfline.com/syndication/embed/v1/player.html?id=137586" frameBorder="0" scrolling="no" allowFullScreen></iframe>
-    //     <div>
-    //       <a href="https://www.surfline.com/surf-report/77th-st-rockaways-long-island_137586/"  title="77th St. Rockaways Surf Report and HD Surf Cam">77th St. Rockaways</a> Live HD Surf Cam. Check out more Surf Cams at <a href="https://www.surfline.com" title="Surfline.com - Global Surf Reports, Surf Forecasts, Live Surf Cams and Coastal Weather">Surfline.com</a>
-    //     </div>
-    //   </div>
-    //   )
-    // } else {
-    //   return (<div>
-    //     <iframe title="long-beach-feed" width="640" height="360" src="http://e.cdn-surfline.com/syndication/embed/v1/player.html?id=4269" frameBorder="0" scrolling="no" allowFullScreen></iframe>
-    //     <div>
-    //       <a href="https://www.surfline.com/surf-report/lincoln-blvd-long-island_4269/" title="Lincoln Blvd. Surf Report and HD Surf Cam">Lincoln Blvd.</a> Live HD Surf Cam. Check out more Surf Cams at <a href="https://www.surfline.com" title="Surfline.com - Global Surf Reports, Surf Forecasts, Live Surf Cams and Coastal Weather">Surfline.com</a>
-    //     </div>
-    //   </div>);
-
-    // }
-  }
-
   get renderInfo() {
     const { forecastToday, forecastTomorrow } = this.state;
-    
+    const timeToday = moment(forecastToday.localTimestamp*1000).format("ddd, ha");
+    const timeTomorrow = moment(forecastTomorrow.localTimestamp*1000).format("ddd, ha");
+
+    const statusToday = evaluateRating(forecastToday.solidRating, forecastToday.fadedRating)
+    const statusTomorrow = evaluateRating(forecastTomorrow.solidRating, forecastTomorrow.fadedRating)
+
     return (
       <div className="nycsurf-main">
         <section>
-          <h2>6am Today</h2>
-          <ul>
-            <ul>time: {forecastToday.localTimestamp}</ul>
-            <ul>swell: {forecastToday.swell.absMaxBreakingHeight} ft</ul>
-
-          </ul>
+          <h2>{timeToday}</h2>
+          <p>{statusToday}</p>
         </section>
         <section>
-        <h2>6am Tomorrow</h2>
-          <ul>
-            <ul>time: {forecastTomorrow.localTimestamp}</ul>
-            <ul>swell: {forecastTomorrow.swell.absMaxBreakingHeight} ft</ul>
-          </ul>
+          <h2>{timeTomorrow}</h2>
+          <p>{statusTomorrow}</p>
         </section>
       </div>
     );
   }
 
   render() {
-    const { currentBeach, forecastToday } = this.state;
+    const { currentBeach, dataIsLoaded } = this.state;
 
     return (
       <div className="nycsurf">
@@ -123,7 +95,7 @@ class App extends Component {
           <a href="https://magicseaweed.com"><img alt="Link to Magic Seaweed" src={logo} /></a>
         </aside>
 
-        {Boolean(forecastToday.timestamp) ? this.renderInfo : <button type="button" id="getData" onClick={this.getForecast}>Get the Forecast</button>}
+        {Boolean(dataIsLoaded) ? this.renderInfo : <button type="button" id="getData" onClick={this.getForecast}>Get the Forecast</button>}
       </div>
     );
   }
