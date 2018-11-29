@@ -5,26 +5,33 @@ import './App.css';
 import { beaches, evaluateRating } from './utils.js';
 import logo from './msw_powered_by.png';
 
-
-function App() {
+function useForecastData() {
 	const [forecast, setForecast] = useState({});
 	const [currentBeach, setCurrentBeach] = useState(beaches.rockaway);
-	
-	const fetchData = async () => {
-		const res = await fetch(`/msw/${currentBeach.beachId}`);
-		const body = await res.json();
 
+	const fetchData = async () => {
+		const json = await fetch(`/msw/${currentBeach.beachId}`)
+			.then(res => res.json());
+	
 		setForecast(
 			{
-	      ...forecast,
-	      ...JSON.parse(body.express)
-	    }
+				...forecast,
+				...JSON.parse(json.express)
+			}
 		);
 	}
 
 	useEffect(() => {
 	  fetchData()
-	});
+	}, [currentBeach]);
+
+
+	return [forecast, currentBeach, setCurrentBeach];
+}
+
+
+function App() {
+	const [forecast, currentBeach, setCurrentBeach] = useForecastData();
 
 	if (Object.keys(forecast).length) {
 		const forecastToday = forecast[4];
